@@ -13,6 +13,7 @@ export interface Course {
   course_name: string;
   weightedAVG: number;
   credits: number;
+  level: string;
   exams: {
     name: string;
     score: number;
@@ -21,36 +22,145 @@ export interface Course {
   }[];
 }
 
-const mockCourses: Course[] = [
+const mockCoursesByLevel: Course[] = [
+  // L1 Courses
   {
-    course_ref: 'PROG1',
-    course_name: 'Algorithmique',
-    weightedAVG: 16.725,
+    course_ref: 'MATH101',
+    course_name: 'Mathématiques fondamentales',
+    weightedAVG: 15.2,
     credits: 6,
+    level: 'L1',
     exams: [
-      { name: 'Examen 1', score: 12, total: 20, weight: 0.2 },
-      { name: 'Examen 2', score: 18, total: 20, weight: 0.6 },
-      { name: 'Examen N', score: 10, total: 20, weight: 0.4 }
+      { name: 'Contrôle continu 1', score: 14, total: 20, weight: 0.2 },
+      { name: 'Contrôle continu 2', score: 16, total: 20, weight: 0.2 },
+      { name: 'Examen final', score: 15, total: 20, weight: 0.6 }
     ]
   },
   {
-    course_ref: 'MATH1',
-    course_name: 'Mathématiques',
-    weightedAVG: 14.5,
-    credits: 4,
-    exams: [
-      { name: 'Examen 1', score: 15, total: 20, weight: 0.3 },
-      { name: 'Examen 2', score: 14, total: 20, weight: 0.7 }
-    ]
-  },
-  {
-    course_ref: 'PHYS1',
-    course_name: 'Physique',
-    weightedAVG: 12.8,
+    course_ref: 'PROG101',
+    course_name: 'Introduction à la programmation',
+    weightedAVG: 16.8,
     credits: 5,
+    level: 'L1',
     exams: [
-      { name: 'Examen 1', score: 11, total: 20, weight: 0.4 },
-      { name: 'Examen 2', score: 14, total: 20, weight: 0.6 }
+      { name: 'TP 1', score: 18, total: 20, weight: 0.3 },
+      { name: 'TP 2', score: 16, total: 20, weight: 0.3 },
+      { name: 'Projet final', score: 17, total: 20, weight: 0.4 }
+    ]
+  },
+  {
+    course_ref: 'PHYS101',
+    course_name: 'Physique générale',
+    weightedAVG: 13.5,
+    credits: 4,
+    level: 'L1',
+    exams: [
+      { name: 'Examen 1', score: 12, total: 20, weight: 0.4 },
+      { name: 'Examen 2', score: 15, total: 20, weight: 0.6 }
+    ]
+  },
+  {
+    course_ref: 'ANG101',
+    course_name: 'Anglais scientifique',
+    weightedAVG: 14.7,
+    credits: 3,
+    level: 'L1',
+    exams: [
+      { name: 'Oral', score: 15, total: 20, weight: 0.5 },
+      { name: 'Écrit', score: 14, total: 20, weight: 0.5 }
+    ]
+  },
+  // L2 Courses
+  {
+    course_ref: 'ALGO201',
+    course_name: 'Algorithmique avancée',
+    weightedAVG: 17.3,
+    credits: 6,
+    level: 'L2',
+    exams: [
+      { name: 'Contrôle 1', score: 16, total: 20, weight: 0.25 },
+      { name: 'Contrôle 2', score: 18, total: 20, weight: 0.25 },
+      { name: 'Projet', score: 17, total: 20, weight: 0.5 }
+    ]
+  },
+  {
+    course_ref: 'BD201',
+    course_name: 'Bases de données',
+    weightedAVG: 15.9,
+    credits: 5,
+    level: 'L2',
+    exams: [
+      { name: 'TP SQL', score: 17, total: 20, weight: 0.4 },
+      { name: 'Examen théorique', score: 15, total: 20, weight: 0.6 }
+    ]
+  },
+  {
+    course_ref: 'STAT201',
+    course_name: 'Statistiques',
+    weightedAVG: 12.8,
+    credits: 4,
+    level: 'L2',
+    exams: [
+      { name: 'DS 1', score: 11, total: 20, weight: 0.3 },
+      { name: 'DS 2', score: 14, total: 20, weight: 0.7 }
+    ]
+  },
+  {
+    course_ref: 'WEB201',
+    course_name: 'Développement web',
+    weightedAVG: 16.5,
+    credits: 5,
+    level: 'L2',
+    exams: [
+      { name: 'Site statique', score: 16, total: 20, weight: 0.3 },
+      { name: 'Application dynamique', score: 17, total: 20, weight: 0.7 }
+    ]
+  },
+  // L3 Courses
+  {
+    course_ref: 'IA301',
+    course_name: 'Intelligence artificielle',
+    weightedAVG: 18.2,
+    credits: 6,
+    level: 'L3',
+    exams: [
+      { name: 'Machine Learning', score: 18, total: 20, weight: 0.4 },
+      { name: 'Réseaux de neurones', score: 19, total: 20, weight: 0.4 },
+      { name: 'Projet IA', score: 17, total: 20, weight: 0.2 }
+    ]
+  },
+  {
+    course_ref: 'SEC301',
+    course_name: 'Sécurité informatique',
+    weightedAVG: 14.6,
+    credits: 5,
+    level: 'L3',
+    exams: [
+      { name: 'Cryptographie', score: 13, total: 20, weight: 0.3 },
+      { name: 'Audit sécurité', score: 16, total: 20, weight: 0.7 }
+    ]
+  },
+  {
+    course_ref: 'STAGE301',
+    course_name: 'Stage en entreprise',
+    weightedAVG: 16.0,
+    credits: 8,
+    level: 'L3',
+    exams: [
+      { name: 'Rapport de stage', score: 16, total: 20, weight: 0.6 },
+      { name: 'Soutenance', score: 16, total: 20, weight: 0.4 }
+    ]
+  },
+  {
+    course_ref: 'PROJ301',
+    course_name: 'Projet de fin d\'études',
+    weightedAVG: 17.8,
+    credits: 7,
+    level: 'L3',
+    exams: [
+      { name: 'Développement', score: 18, total: 20, weight: 0.5 },
+      { name: 'Documentation', score: 17, total: 20, weight: 0.2 },
+      { name: 'Présentation', score: 18, total: 20, weight: 0.3 }
     ]
   }
 ];
@@ -59,12 +169,21 @@ const Index = () => {
   const [selectedLevel, setSelectedLevel] = useState('L1');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [globalAverage] = useState(14.67);
 
-  const filteredCourses = mockCourses.filter(course =>
+  // Filter courses by selected level
+  const coursesByLevel = mockCoursesByLevel.filter(course => course.level === selectedLevel);
+  
+  // Then filter by search term
+  const filteredCourses = coursesByLevel.filter(course =>
     course.course_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     course.course_ref.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Calculate global average for the selected level
+  const globalAverage = coursesByLevel.length > 0 
+    ? coursesByLevel.reduce((sum, course) => sum + (course.weightedAVG * course.credits), 0) / 
+      coursesByLevel.reduce((sum, course) => sum + course.credits, 0)
+    : 0;
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -90,7 +209,7 @@ const Index = () => {
             <div className="flex items-center space-x-4">
               <LevelSelector value={selectedLevel} onChange={setSelectedLevel} />
               <div className="text-lg font-medium">
-                Moyenne globale: <span className="text-blue-600 font-semibold">{globalAverage.toFixed(2)}</span>
+                Moyenne globale {selectedLevel}: <span className="text-blue-600 font-semibold">{globalAverage.toFixed(2)}</span>
               </div>
             </div>
             <div className="relative">
