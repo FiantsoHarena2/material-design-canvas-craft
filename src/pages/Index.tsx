@@ -1,12 +1,20 @@
-
 import React, { useState } from 'react';
+import { 
+  Container, 
+  Paper, 
+  Typography, 
+  Box, 
+  Grid, 
+  TextField, 
+  InputAdornment,
+  Avatar,
+  Button,
+  Chip
+} from '@mui/material';
+import { Search, Download } from '@mui/icons-material';
 import { CourseTable } from '@/components/CourseTable';
-import { CourseDetails } from '@/components/CourseDetails';
+import { CourseDetailsModal } from '@/components/CourseDetailsModal';
 import { LevelSelector } from '@/components/LevelSelector';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Search, Download } from 'lucide-react';
 
 export interface Course {
   course_ref: string;
@@ -169,6 +177,7 @@ const Index = () => {
   const [selectedLevel, setSelectedLevel] = useState('L1');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
 
   // Filter courses by selected level
   const coursesByLevel = mockCoursesByLevel.filter(course => course.level === selectedLevel);
@@ -185,62 +194,85 @@ const Index = () => {
       coursesByLevel.reduce((sum, course) => sum + course.credits, 0)
     : 0;
 
+  const handleCourseSelect = (course: Course) => {
+    setSelectedCourse(course);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setSelectedCourse(null);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <Container maxWidth="xl" sx={{ py: 3 }}>
+      <Box sx={{ mb: 3 }}>
         {/* Header Section */}
-        <Card className="p-6 shadow-md">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
-              <div>
-                <h1 className="text-2xl font-semibold text-gray-900">
-                  Tableau de Bord Étudiant - Suivi des Notes et Résultats
-                </h1>
-              </div>
-            </div>
-            <Button variant="outline" className="flex items-center space-x-2">
-              <Download className="w-4 h-4" />
-              <span>Télécharger relevé</span>
+        <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Avatar sx={{ width: 48, height: 48, bgcolor: 'grey.300' }} />
+              <Typography variant="h5" component="h1" fontWeight="medium">
+                Tableau de Bord Étudiant - Suivi des Notes et Résultats
+              </Typography>
+            </Box>
+            <Button 
+              variant="outlined" 
+              startIcon={<Download />}
+              sx={{ textTransform: 'none' }}
+            >
+              Télécharger relevé
             </Button>
-          </div>
+          </Box>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
               <LevelSelector value={selectedLevel} onChange={setSelectedLevel} />
-              <div className="text-lg font-medium">
-                Moyenne globale {selectedLevel}: <span className="text-blue-600 font-semibold">{globalAverage.toFixed(2)}</span>
-              </div>
-            </div>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <Input
-                placeholder="search ..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 w-64"
-              />
-            </div>
-          </div>
-        </Card>
-
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Course Table */}
-          <Card className="p-6 shadow-md">
-            <CourseTable 
-              courses={filteredCourses}
-              onCourseSelect={setSelectedCourse}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Typography variant="h6">
+                  Moyenne globale {selectedLevel}:
+                </Typography>
+                <Chip 
+                  label={globalAverage.toFixed(2)} 
+                  color="primary" 
+                  variant="filled"
+                  sx={{ fontWeight: 'bold' }}
+                />
+              </Box>
+            </Box>
+            <TextField
+              placeholder="Rechercher..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              size="small"
+              sx={{ width: 250 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Search />
+                  </InputAdornment>
+                ),
+              }}
             />
-          </Card>
+          </Box>
+        </Paper>
 
-          {/* Course Details */}
-          <Card className="p-6 shadow-md">
-            <CourseDetails course={selectedCourse} />
-          </Card>
-        </div>
-      </div>
-    </div>
+        {/* Course Table */}
+        <Paper elevation={2} sx={{ p: 3 }}>
+          <CourseTable 
+            courses={filteredCourses}
+            onCourseSelect={handleCourseSelect}
+          />
+        </Paper>
+
+        {/* Course Details Modal */}
+        <CourseDetailsModal 
+          course={selectedCourse}
+          open={modalOpen}
+          onClose={handleCloseModal}
+        />
+      </Box>
+    </Container>
   );
 };
 
