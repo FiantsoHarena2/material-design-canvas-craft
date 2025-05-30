@@ -76,7 +76,7 @@ const Index = () => {
               <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
               <div>
                 <h1 className="text-2xl font-semibold text-gray-900">
-                  Vue individuelle pour les étudiants sur TOUS les notes et TOUS les cours
+                  Tableau de Bord Étudiant - Suivi des Notes et Résultats
                 </h1>
               </div>
             </div>
