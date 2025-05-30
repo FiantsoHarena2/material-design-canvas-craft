@@ -1,16 +1,6 @@
 
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Button,
-  Typography,
-  Chip
-} from '@mui/material';
+import { Button } from '@/components/ui/button';
 import { Course } from '@/pages/Index';
 
 interface CourseTableProps {
@@ -20,50 +10,41 @@ interface CourseTableProps {
 
 export const CourseTable: React.FC<CourseTableProps> = ({ courses, onCourseSelect }) => {
   return (
-    <div>
-      <Typography variant="h6" component="h2" sx={{ mb: 2, fontWeight: 'medium' }}>
-        Aperçu des Cours
-      </Typography>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>Référence</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Nom du cours</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Moyenne</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Crédits</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+    <div className="space-y-4">
+      <h2 className="text-lg font-semibold text-gray-900">Courses Overview</h2>
+      <div className="overflow-hidden">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-gray-200">
+              <th className="text-left py-3 px-2 font-medium text-gray-700">course_ref</th>
+              <th className="text-left py-3 px-2 font-medium text-gray-700">course_name</th>
+              <th className="text-left py-3 px-2 font-medium text-gray-700">WeightedAVG</th>
+              <th className="text-left py-3 px-2 font-medium text-gray-700">Credits</th>
+              <th className="text-left py-3 px-2 font-medium text-gray-700">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
             {courses.map((course) => (
-              <TableRow key={course.course_ref} hover>
-                <TableCell sx={{ fontWeight: 'medium' }}>{course.course_ref}</TableCell>
-                <TableCell>{course.course_name}</TableCell>
-                <TableCell>
-                  <Chip 
-                    label={course.weightedAVG.toFixed(2)} 
-                    color="primary" 
-                    variant="outlined"
-                    size="small"
-                  />
-                </TableCell>
-                <TableCell>{course.credits}</TableCell>
-                <TableCell>
+              <tr key={course.course_ref} className="hover:bg-gray-50 transition-colors">
+                <td className="py-3 px-2 font-medium text-gray-900">{course.course_ref}</td>
+                <td className="py-3 px-2 text-gray-700">{course.course_name}</td>
+                <td className="py-3 px-2 font-medium text-blue-600">{course.weightedAVG.toFixed(3)}</td>
+                <td className="py-3 px-2 text-gray-700">{course.credits}</td>
+                <td className="py-3 px-2">
                   <Button
-                    variant="text"
-                    size="small"
+                    variant="ghost"
+                    size="sm"
                     onClick={() => onCourseSelect(course)}
-                    sx={{ textTransform: 'none' }}
+                    className="text-blue-600 hover:text-blue-800 hover:bg-blue-50"
                   >
-                    Voir détails...
+                    See details...
                   </Button>
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
